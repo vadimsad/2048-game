@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+@import '../node_modules/normalize.css/normalize.css';
+
+html {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--lighter);
+    background: var(--dark);
+}
+
+html, body, .wrapper {
+    height: 100%;
+}
+
+[class*='container'] {
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+/* ============================================================== */
+
+/* ========================= VARIABLES ========================== */
+
+html {
+    --dark: #2A2A2A;
+    --light: #81776F;
+    --lighter: #B9AC9D;
+}
+
+/* ========================= VARIABLES ========================== */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    display: grid;
+    place-content: center;
+}
+
+header {
+    padding: 30px 0;
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+}
+
+header h3 {
+    text-align: center;
+}
+
+canvas {
+    background-color: var(--light);
+    border-radius: 10px;
+    cursor: grab;
+}
+
+canvas:active {
+    cursor: grabbing;
+}
+
+footer {
+    padding: 15px 0;
+    text-align: center;
+}
+
+@media(max-width:1920px) {
+    [class*='container'] {
+        max-width: 1200px;
+    }
+}
+
+@media(max-width:1440px) {
+    [class*='container'] {
+        max-width: 968px;
+    }
+}
+
+@media(max-width:1024px) {
+    [class*='container'] {
+        max-width: 768px;
+    }
+}
