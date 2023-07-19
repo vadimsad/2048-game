@@ -21,8 +21,12 @@ export default class InputManager {
         window.addEventListener('keydown', this.handleKeyDown);
 
         this.canvas.addEventListener('mousedown', this.handleMouseDown);
-        this.canvas.addEventListener('mousemove', this.handleMouseMove);
+        this.canvas.addEventListener('mousemove', event => event.preventDefault());
         this.canvas.addEventListener('mouseup', this.handleMouseUp);
+
+        this.canvas.addEventListener('touchstart', this.handleTouchStart);
+        this.canvas.addEventListener('touchmove', event => event.preventDefault());
+        this.canvas.addEventListener('touchend', this.handleTouchEnd);
     };
 
     private handleKeyDown = (event: KeyboardEvent) => {
@@ -34,28 +38,49 @@ export default class InputManager {
     };
 
     private handleMouseDown = (event: MouseEvent) => {
-        this.lastX = event.offsetX;
-        this.lastY = event.offsetY;
-    };
 
-    private handleMouseMove = (event: MouseEvent) => {
-        event.preventDefault();
+        this.lastX = event.clientX;
+        this.lastY = event.clientY;
     };
 
     private handleMouseUp = (event: MouseEvent) => {
+
         if (this.lastX === null || this.lastY === null) return;
 
-        this.dx = event.offsetX - this.lastX;
-        this.dy = event.offsetY - this.lastY;
+        this.dx = event.clientX - this.lastX;
+        this.dy = event.clientY - this.lastY;
 
-        if (Math.abs(this.dx) > Math.abs(this.dy) && Math.abs(this.dx) >= SWIPE_THRESHOLD) {
-            if (this.dx > 0) {
+        this.generateSwipe(this.dx, this.dy);
+    }
+
+    private handleTouchStart = (event: TouchEvent) => {
+
+        if (event.touches.length > 0) {
+            this.lastX = event.touches[0].clientX;
+            this.lastY = event.touches[0].clientY;
+        }
+    }
+
+    private handleTouchEnd = (event: TouchEvent) => {
+        if (this.lastX === null || this.lastY === null) return;
+
+        if (event.changedTouches.length > 0) {
+            this.dx = event.changedTouches[0].clientX - this.lastX;
+            this.dy = event.changedTouches[0].clientY - this.lastY;
+
+            this.generateSwipe(this.dx, this.dy);
+        }
+    }
+
+    private generateSwipe(dx: number, dy: number) {
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) >= SWIPE_THRESHOLD) {
+            if (dx > 0) {
                 this.emit('swipe', ArrowKeyDirection.RIGHT);
             } else {
                 this.emit('swipe', ArrowKeyDirection.LEFT);
             }
-        } else if (Math.abs(this.dy) > Math.abs(this.dx) && Math.abs(this.dy) >= SWIPE_THRESHOLD) {
-            if (this.dy > 0) {
+        } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) >= SWIPE_THRESHOLD) {
+            if (dy > 0) {
                 this.emit('swipe', ArrowKeyDirection.DOWN);
             } else {
                 this.emit('swipe', ArrowKeyDirection.UP);

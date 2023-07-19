@@ -1,7 +1,6 @@
 import { CANVAS_SIZE } from './constants';
 import '../style.css';
 import Game from './game';
-import Renderer from './renderer';
 
 window.addEventListener("DOMContentLoaded", () => {
     const canvas = document.querySelector('#gameCanvas') as HTMLCanvasElement;
@@ -13,4 +12,4 @@ window.addEventListener("DOMContentLoaded", () => {
     const game = new Game(canvas);
     game.start();
 
-})
+});

@@ -39,7 +39,7 @@ export default class Renderer {
 
                 if (cellValue === 0) continue;
 
-                this.context.font = `bold 40px Montserrat`;
+                this.context.font = `bold 28px Montserrat`;
                 this.context.fillStyle = TILE_COLORS[cellValue as keyof typeof TILE_COLORS].text;
                 this.context.textAlign = 'center';
                 this.context.textBaseline = 'middle';

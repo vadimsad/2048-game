@@ -6,9 +6,10 @@ html {
     font-family: 'Montserrat', sans-serif;
     color: var(--lighter);
     background: var(--dark);
+    height: 100vh;
 }
 
-html, body, .wrapper {
+body, .wrapper {
     height: 100%;
 }
 
@@ -83,5 +84,15 @@ footer {
 @media(max-width:1024px) {
     [class*='container'] {
         max-width: 768px;
+    }
+}
+
+@media(max-width: 720px) {
+    header {
+        padding: 20px 0;
+    }
+
+    header h3 {
+        margin: 10px 0;
     }
 }
