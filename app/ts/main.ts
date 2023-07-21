@@ -12,4 +12,14 @@ window.addEventListener("DOMContentLoaded", () => {
     const game = new Game(canvas);
     game.start();
 
+    const gameModeButton = document.querySelector('#gameMode') as HTMLButtonElement;
+    gameModeButton.onclick = () => {
+        game.endlessGame = !game.endlessGame;
+
+        if (game.endlessGame) {
+            gameModeButton.innerHTML = 'endless';
+        } else {
+            gameModeButton.textContent = '2048';
+        }
+    }
 });

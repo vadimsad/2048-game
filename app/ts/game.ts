@@ -1,7 +1,7 @@
 import Renderer from './renderer';
 import Board, { ArrowKeyDirection } from './board';
 import InputManager from './inputManager';
-import { BOARD_SIZE } from './constants';
+import { BOARD_SIZE, TARGET } from './constants';
 
 export default class Game {
     private canvas: HTMLCanvasElement;
@@ -10,6 +10,7 @@ export default class Game {
     private renderer: Renderer;
     private inputManager: InputManager;
 
+    public endlessGame: boolean = false;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -45,14 +46,14 @@ export default class Game {
             setTimeout(() => {
                 alert('No possible move');
                 this.restart();
-            }, 200)
+            }, 300)
         }
 
-        if (this.board.isWin()) {
+        if (!this.endlessGame && this.board.isWin()) {
             setTimeout(() => {
                 alert('You won!');
                 this.restart();
-            }, 200);
+            }, 300);
         }
     }
 }

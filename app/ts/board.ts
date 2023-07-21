@@ -1,5 +1,4 @@
-import { ANIMATION_DURATION, SPACE_BETWEEN_TILES, SPAWN_2_PROBABILITY, TARGET } from "./constants";
-import { delayAnimation, getTileByPosition } from "./functions";
+import { SPAWN_2_PROBABILITY, TARGET } from "./constants";
 import Tile from "./tile";
 
 export default class Board {
@@ -23,9 +22,6 @@ export default class Board {
 
         this.spawnRandomTile(1);
         this.spawnRandomTile(1);
-
-        // this.grid[0][0].setValue(2);
-        // this.grid[2][0].setValue(2);
     }
 
     public move(direction: ArrowKeyDirection) {
@@ -45,74 +41,23 @@ export default class Board {
         switch (direction) {
             case ArrowKeyDirection.UP: {
                 handleMoveMeta(this.moveUp());
-
                 break;
             }
             case ArrowKeyDirection.DOWN: {
                 handleMoveMeta(this.moveDown());
-
                 break;
             }
             case ArrowKeyDirection.LEFT: {
                 handleMoveMeta(this.moveLeft());
-
                 break;
             }
             case ArrowKeyDirection.RIGHT: {
                 handleMoveMeta(this.moveRight());
-
                 break;
             }
         }
 
         this.updateScore(addToScore);
-    }
-
-    private spawnRandomTile(scale: number = 0) {
-        const emptyTile = this.getRandomEmptyTile();
-
-        if (emptyTile) {
-            const { row, col } = emptyTile;
-            const tileValue = Math.random() < SPAWN_2_PROBABILITY ? 2 : 4;
-            this.grid[row][col] = new Tile(tileValue, { row, col }, scale);
-            this.grid[row][col].fadeIn();
-        }
-    }
-
-    private getRandomEmptyTile() {
-        const emptyTiles: { row: number, col: number }[] = [];
-
-        // Находим все пустые клетки
-        for (let row = 0; row < this.grid.length; row++) {
-            for (let col = 0; col < this.grid.length; col++) {
-                if (this.grid[row][col].getValue() === 0) {
-                    emptyTiles.push({ row, col })
-                }
-            }
-        }
-
-        if (emptyTiles.length === 0) {
-            return null;
-        }
-
-        const randomIndex = Math.floor(Math.random() * emptyTiles.length);
-        return emptyTiles[randomIndex];
-    }
-
-    private fillGridWithEmptyTiles() {
-        this.grid = [];
-        for (let row = 0; row < this.size; row++) {
-            const gridRow: Tile[] = [];
-            for (let col = 0; col < this.size; col++) {
-                gridRow.push(new Tile(0, { row, col }));
-            }
-            this.grid.push(gridRow);
-        }
-    }
-
-    private updateScore(value: number) {
-        this.score += value;
-        return this.score;
     }
 
     private moveUp() {
@@ -148,8 +93,6 @@ export default class Board {
                     this.grid[prevRow][col].hasMerged = true;
                     this.grid[prevRow][col].moveTo(prevRow, col);
                     this.grid[prevRow][col].fadeInAndOut();
-
-                    console.log('merging')
 
                     currentTile.moveTo(prevRow, col);
                     currentTile.setValue(0);
@@ -342,11 +285,58 @@ export default class Board {
         return moveData;
     }
 
-    isTilesMoving() {
+    private spawnRandomTile(scale: number = 0) {
+        const emptyTile = this.getRandomEmptyTile();
+
+        if (emptyTile) {
+            const { row, col } = emptyTile;
+            const tileValue = Math.random() < SPAWN_2_PROBABILITY ? 2 : 4;
+            this.grid[row][col] = new Tile(tileValue, { row, col }, scale);
+            this.grid[row][col].fadeIn();
+        }
+    }
+
+    private getRandomEmptyTile() {
+        const emptyTiles: { row: number, col: number }[] = [];
+
+        // Находим все пустые клетки
+        for (let row = 0; row < this.grid.length; row++) {
+            for (let col = 0; col < this.grid.length; col++) {
+                if (this.grid[row][col].getValue() === 0) {
+                    emptyTiles.push({ row, col })
+                }
+            }
+        }
+
+        if (emptyTiles.length === 0) {
+            return null;
+        }
+
+        const randomIndex = Math.floor(Math.random() * emptyTiles.length);
+        return emptyTiles[randomIndex];
+    }
+
+    private fillGridWithEmptyTiles() {
+        this.grid = [];
+        for (let row = 0; row < this.size; row++) {
+            const gridRow: Tile[] = [];
+            for (let col = 0; col < this.size; col++) {
+                gridRow.push(new Tile(0, { row, col }));
+            }
+            this.grid.push(gridRow);
+        }
+    }
+
+    private updateScore(value: number) {
+        this.score += value;
+        return this.score;
+    }
+
+    public isTilesMoving() {
         return this.grid.some(row => row.some(tile => tile.isMoving));
     }
 
-    isWin(): boolean {
+    public isWin(): boolean {
         if (this.maxTileValue === TARGET) {
             return true;
         }
@@ -354,7 +344,7 @@ export default class Board {
         return false;
     }
 
-    isGameOver(): boolean {
+    public isGameOver(): boolean {
         const tiles = this.grid.flat();
         const emptyTiles = tiles.filter(tile => tile.getValue() === 0);
         const mergeableTiles = tiles.filter(tile => {
@@ -370,13 +360,13 @@ export default class Board {
         }
     }
 
-    getNeighbours(tile: Tile) {
+    private getNeighbours(tile: Tile) {
         const { row, col } = tile.getPosition();
 
         return [this.grid[row - 1]?.[col], this.grid[row + 1]?.[col], this.grid[row]?.[col - 1], this.grid[row]?.[col + 1]].filter(tile => tile);
     }
 
-    reset() {
+    public reset() {
         // Сброс игрового состояния
         this.init();
     }

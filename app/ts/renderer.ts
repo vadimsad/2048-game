@@ -17,15 +17,32 @@ export default class Renderer {
     }
 
     public render(grid: Tile[][]) {
-        // const anyTileMoving = grid.some(row => row.some(tile => tile.currentX !== tile.targetX || tile.currentY !== tile.targetY));
-
-        // if (anyTileMoving) {
-        //     this.animate(grid);
-        // } else {
-        //     this.clearCanvas();
-        //     this.init(grid);
-        // }
         this.animate(grid);
+    }
+
+    private animate(grid: Tile[][]) {
+        // Обновляем координаты плиток
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                const tile = grid[row][col];
+                const isTileMoving = tile.currentX !== tile.targetX || tile.currentY !== tile.targetY;
+                const isTileFading = tile.scale !== 1;
+
+                if (isTileMoving || isTileFading) {
+                    tile.update();
+                }
+            }
+        }
+
+        this.clearCanvas();
+        this.drawGrid(grid);
+
+        const anyTileMoving = grid.some(row => row.some(tile => tile.currentX !== tile.targetX || tile.currentY !== tile.targetY));
+        const anyTileFading = grid.some(row => row.some(tile => tile.scale !== 1));
+
+        if (anyTileMoving || anyTileFading) {
+            requestAnimationFrame(() => this.animate(grid))
+        }
     }
 
     public drawGrid(grid: Tile[][]) {
@@ -63,10 +80,6 @@ export default class Renderer {
         });
     }
 
-    public updateScore(score: number) {
-        this.scoreElement.textContent = score.toString();
-    }
-
     private drawTile(x: number, y: number, tileValue: number, scale: number) {
         this.context.fillStyle = TILE_COLORS[tileValue as keyof typeof TILE_COLORS].background;
 
@@ -80,7 +93,7 @@ export default class Renderer {
 
         if (tileValue !== 0) {
             // Устанавливаем размер шрифта с учетом масштаба
-            const scaledFontSize = 28 * scale;
+            const scaledFontSize = 24 * scale;
             this.context.font = `bold ${scaledFontSize}px Montserrat`;
 
             this.context.fillStyle = TILE_COLORS[tileValue as keyof typeof TILE_COLORS].text;
@@ -92,6 +105,17 @@ export default class Renderer {
             const scaledTextY = y + this.tileSize / 2;
 
             this.context.fillText(tileValue.toString(), scaledTextX, scaledTextY);
+        }
+    }
+
+    public drawBackgroundGrid() {
+        for (let row = 0; row < BOARD_SIZE; row++) {
+            for (let col = 0; col < BOARD_SIZE; col++) {
+                const x = col * (this.tileSize + SPACE_BETWEEN_TILES) + SPACE_BETWEEN_TILES;
+                const y = row * (this.tileSize + SPACE_BETWEEN_TILES) + SPACE_BETWEEN_TILES;
+
+                this.drawTile(x, y, 0, 1);
+            }
         }
     }
 
@@ -116,52 +140,7 @@ export default class Renderer {
         this.context.clearRect(0, 0, width, height);
     }
 
-    private animate(grid: Tile[][]) {
-        // Обновляем координаты плиток
-        for (let row = 0; row < grid.length; row++) {
-            for (let col = 0; col < grid[row].length; col++) {
-                const tile = grid[row][col];
-                const isTileMoving = tile.currentX !== tile.targetX || tile.currentY !== tile.targetY;
-                const isTileFading = tile.scale !== 1;
-
-                if (isTileMoving || isTileFading) {
-                    tile.update();
-                }
-
-                // if (isTileFading || isTileMoving) {
-                //     const animationStartTime = tile.update();
-
-                //     if (animationStartTime === null) {
-                //         const { row: newRow, col: newCol } = tile.getPosition();
-
-                //         // grid[newRow][newCol] = tile;
-                //         // grid[row][col] = new Tile(0, { row, col });
-
-                //         grid[newRow][newCol].setValue(grid[newRow][newCol].targetValue);
-                //     }
-                // }
-            }
-        }
-
-        this.clearCanvas();
-        this.drawGrid(grid);
-
-        const anyTileMoving = grid.some(row => row.some(tile => tile.currentX !== tile.targetX || tile.currentY !== tile.targetY));
-        const anyTileFading = grid.some(row => row.some(tile => tile.scale !== 1));
-
-        if (anyTileMoving || anyTileFading) {
-            requestAnimationFrame(() => this.animate(grid))
-        }
-    }
-
-    public drawBackgroundGrid() {
-        for (let row = 0; row < BOARD_SIZE; row++) {
-            for (let col = 0; col < BOARD_SIZE; col++) {
-                const x = col * (this.tileSize + SPACE_BETWEEN_TILES) + SPACE_BETWEEN_TILES;
-                const y = row * (this.tileSize + SPACE_BETWEEN_TILES) + SPACE_BETWEEN_TILES;
-
-                this.drawTile(x, y, 0, 1);
-            }
-        }
+    public updateScore(score: number) {
+        this.scoreElement.textContent = score.toString();
     }
 }

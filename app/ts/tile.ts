@@ -2,24 +2,21 @@ import { ANIMATION_DURATION, BOARD_SIZE, CANVAS_SIZE, SPACE_BETWEEN_TILES } from
 
 export default class Tile {
     private value: number;
-    public targetValue: number;
-    public scale: number;
     private position: { row: number, col: number };
-    public tileSize: number = (CANVAS_SIZE - SPACE_BETWEEN_TILES * (BOARD_SIZE + 1)) / BOARD_SIZE;
-    public animationStartTime: number | null = null;
+    private animationStartTime: number | null = null;
     private animationDuration: number = ANIMATION_DURATION;
-    public isMoving: boolean = false;
 
+    public scale: number;
+    public tileSize: number = (CANVAS_SIZE - SPACE_BETWEEN_TILES * (BOARD_SIZE + 1)) / BOARD_SIZE;
+    public isMoving: boolean = false;
     public currentX: number;
     public currentY: number;
     public targetX: number;
     public targetY: number;
-
     public hasMerged: boolean = false;
 
     constructor(value: number, position: { row: number, col: number }, scale: number = 1) {
         this.value = value;
-        this.targetValue = value;
         this.scale = scale;
         this.position = position;
 
