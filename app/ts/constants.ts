@@ -1,6 +1,6 @@
 export const BOARD_SIZE = 4;
-export const ANIMATION_DURATION = 50;
-export const SPAWN_2_PROBABILITY = 0.9;
+export const ANIMATION_DURATION = 150;
+export const SPAWN_2_PROBABILITY = 1;
 export const TARGET = 2048;
 export const CANVAS_SIZE = 300;
 export const SPACE_BETWEEN_TILES = 8;

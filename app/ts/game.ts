@@ -21,18 +21,20 @@ export default class Game {
 
     start() {
         this.board.init();
-        this.renderer.render(this.board.getGrid());
+        this.renderer.drawGrid(this.board.getGrid());
         this.inputManager.on('arrowKeyDown', this.handleMove);
-        this.inputManager.on('swipe', this.handleMove)
+        this.inputManager.on('swipe', this.handleMove);
     }
 
     restart() {
         this.board.init();
-        this.renderer.render(this.board.getGrid());
+        this.renderer.drawGrid(this.board.getGrid());
         this.renderer.updateScore(this.board.score);
     }
 
     private handleMove = (direction: ArrowKeyDirection) => {
+        if (this.board.isTilesMoving()) return;
+
         this.board.move(direction);
 
         // Обновление отображения игры после перемещения плиток
