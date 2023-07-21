@@ -147,6 +147,9 @@ export default class Board {
                     this.grid[prevRow][col].setValue(mergedValue);
                     this.grid[prevRow][col].hasMerged = true;
                     this.grid[prevRow][col].moveTo(prevRow, col);
+                    this.grid[prevRow][col].fadeInAndOut();
+
+                    console.log('merging')
 
                     currentTile.moveTo(prevRow, col);
                     currentTile.setValue(0);
@@ -202,6 +205,7 @@ export default class Board {
                     this.grid[nextRow][col].setValue(mergedValue);
                     this.grid[nextRow][col].hasMerged = true;
                     this.grid[nextRow][col].moveTo(nextRow, col);
+                    this.grid[nextRow][col].fadeInAndOut();
 
                     currentTile.moveTo(nextRow, col);
                     currentTile.setValue(0);
@@ -257,6 +261,7 @@ export default class Board {
                     this.grid[row][prevCol].setValue(mergedValue);
                     this.grid[row][prevCol].hasMerged = true;
                     this.grid[row][prevCol].moveTo(row, prevCol);
+                    this.grid[row][prevCol].fadeInAndOut();
 
                     currentTile.moveTo(row, prevCol);
                     currentTile.setValue(0);
@@ -313,6 +318,7 @@ export default class Board {
                     this.grid[row][nextCol].setValue(mergedValue);
                     this.grid[row][nextCol].hasMerged = true;
                     this.grid[row][nextCol].moveTo(row, nextCol);
+                    this.grid[row][nextCol].fadeInAndOut();
 
                     currentTile.moveTo(row, nextCol);
                     currentTile.setValue(0);

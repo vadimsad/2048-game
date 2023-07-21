@@ -50,6 +50,15 @@ export default class Tile {
         }
     }
 
+    fadeInAndOut() {
+        this.animationStartTime = null;
+
+        if (this.scale === 1) {
+            this.scale = 1.8;
+            this.animationStartTime = performance.now();
+        }
+    }
+
     update() {
         if (this.animationStartTime !== null) {
 
@@ -59,8 +68,10 @@ export default class Tile {
             // Вычисляем прогресс анимации от 0 до 1
             const progress = Math.min(elapsedTime / this.animationDuration, 1);
 
-            if (this.scale !== 1) {
+            if (this.scale < 1) {
                 this.scale = progress; // Обновляем масштаб плитки
+            } else if (this.scale > 1) {
+                this.scale = oscillate(this.scale, 1, 3, 1)
             }
 
             // Используем функцию lerp для плавного перехода между начальными и целевыми координатами
@@ -102,4 +113,18 @@ export default class Tile {
 
 function lerp(start: number, end: number, t: number) {
     return start * (1 - t) + end * t;
+}
+
+function oscillate(start: number, end: number, t: number, frequency: number) {
+    // Вычисляем амплитуду колебаний (половина разницы между начальным и конечным значением)
+    const amplitude = (end - start) / 2;
+
+    // Вычисляем смещение (среднее между начальным и конечным значением)
+    const offset = (start + end) / 2;
+
+    // Вычисляем значение колебания с помощью синуса
+    const oscillation = amplitude * Math.sin(t * 2 * Math.PI * frequency);
+
+    // Возвращаем окончательное значение
+    return offset + oscillation;
 }
