@@ -6,7 +6,17 @@ module.exports = {
     module: {
         rules: [
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
-            {test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/}
+            {test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/},
+            {
+                test: /\.(mp3|ogg|wav)$/,
+                use: {
+                  loader: 'file-loader',
+                  options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets/sound', // Путь для сохранения файлов в сборке
+                  },
+                },
+              },
         ]
     },
     resolve: {

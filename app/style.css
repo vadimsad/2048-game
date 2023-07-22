@@ -9,10 +9,6 @@ html {
     height: 100vh;
 }
 
-body {
-    overflow: hidden;
-}
-
 body, .wrapper {
     height: 100%;
 }
