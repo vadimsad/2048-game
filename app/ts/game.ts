@@ -1,12 +1,13 @@
 import Renderer from './renderer';
 import Board, { ArrowKeyDirection } from './board';
 import InputManager from './inputManager';
-import { BOARD_SIZE, TARGET } from './constants';
+import { BOARD_SIZE } from './constants';
+import { readGridFromLS, readScoreFromLS } from './functions';
 
 export default class Game {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
-    private board: Board;
+    public board: Board;
     private renderer: Renderer;
     private inputManager: InputManager;
 
@@ -20,14 +21,19 @@ export default class Game {
         this.inputManager = new InputManager(canvas);
     }
 
-    start() {
-        this.board.init();
+    public start() {
+        const restoredGrid = readGridFromLS();
+        const restoredScore = readScoreFromLS();
+
+        this.board.init(restoredGrid, restoredScore);
         this.renderer.drawGrid(this.board.getGrid());
+        this.renderer.updateScore(this.board.score);
+
         this.inputManager.on('arrowKeyDown', this.handleMove);
         this.inputManager.on('swipe', this.handleMove);
     }
 
-    restart() {
+    public restart() {
         this.board.init();
         this.renderer.drawGrid(this.board.getGrid());
         this.renderer.updateScore(this.board.score);

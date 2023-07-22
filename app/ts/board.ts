@@ -15,13 +15,17 @@ export default class Board {
         this.maxTileValue = 0;
     }
 
-    public init() {
-        this.score = 0;
-        this.maxTileValue = 0;
-        this.fillGridWithEmptyTiles()
+    public init(savedGrid?: Tile[][], score?: number) {
+        this.reset();
 
-        this.spawnRandomTile(1);
-        this.spawnRandomTile(1);
+        if (savedGrid && savedGrid.length !== 0 && score !== undefined) {
+            this.grid = savedGrid;
+            this.score = score;
+        } else {
+            this.fillGridWithEmptyTiles();
+            this.spawnRandomTile(1);
+            this.spawnRandomTile(1);
+        }
     }
 
     public move(direction: ArrowKeyDirection) {
@@ -302,6 +306,9 @@ export default class Board {
         // Находим все пустые клетки
         for (let row = 0; row < this.grid.length; row++) {
             for (let col = 0; col < this.grid.length; col++) {
+                if (!this.grid[row][col].getValue) {
+                    console.log(this.grid[row][col].getValue)
+                }
                 if (this.grid[row][col].getValue() === 0) {
                     emptyTiles.push({ row, col })
                 }
@@ -368,7 +375,9 @@ export default class Board {
 
     public reset() {
         // Сброс игрового состояния
-        this.init();
+        this.grid = [];
+        this.score = 0;
+        this.maxTileValue = 0;
     }
 
     public getGrid() {

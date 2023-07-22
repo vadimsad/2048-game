@@ -22,6 +22,16 @@ body, .wrapper {
     margin: 0 auto;
 }
 
+button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
 /* ============================================================== */
 
 /* ========================= VARIABLES ========================== */
@@ -42,7 +52,10 @@ html {
 main {
     margin-top: 50px;
     display: flex;
+    gap: 15px;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 header {
@@ -55,7 +68,7 @@ header h1 {
     text-align: center;
 }
 
-header h1 button {
+header h1 button#gameMode {
     padding: 6px 8px;
     margin: 0;
     border: none;
@@ -64,6 +77,28 @@ header h1 button {
     color: var(--lighter);
     font-size: inherit;
     cursor: pointer;
+}
+
+main button#gameRestart {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+main button#gameRestart svg {
+    background: var(--light);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+main button#gameRestart svg path {
+    transform-origin: 50% 50%;
+    transition: transform 0.2s ease-in-out
+}
+
+main button#gameRestart:hover svg path {
+    transform: rotate(90deg);
 }
 
 header h3 {
