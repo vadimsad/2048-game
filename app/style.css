@@ -36,9 +36,8 @@ html {
 }
 
 main {
-    flex-grow: 1;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 header {
