@@ -3,7 +3,7 @@ export const BOARD_SIZE = 4;
 export const SPACE_BETWEEN_TILES = 8;
 
 export const TARGET = 2048;
-export const SPAWN_2_PROBABILITY = 1;
+export const SPAWN_2_PROBABILITY = 0.9;
 
 export const ANIMATION_DURATION = 150;
 export const SWIPE_THRESHOLD = 50;
