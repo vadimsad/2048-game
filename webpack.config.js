@@ -7,20 +7,14 @@ module.exports = {
         rules: [
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
             {test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/},
-            {
-                test: /\.(mp3|ogg|wav)$/,
-                use: {
-                  loader: 'file-loader',
-                  options: {
-                    name: '[name].[ext]',
-                    outputPath: 'assets/sound', // Путь для сохранения файлов в сборке
-                  },
-                },
-              },
+            {test: /\.mp3$/, use: 'file-loader'},
         ]
     },
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js'],
+        alias: {
+            '@sound': path.resolve(__dirname, 'app/assets/sound'),
+        }
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

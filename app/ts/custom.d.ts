@@ -1,4 +1,4 @@
 declare module '*.mp3' {
-    const value: any;
-    export default value;
+    const src: string;
+    export default src;
 }

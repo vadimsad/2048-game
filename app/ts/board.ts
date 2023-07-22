@@ -1,5 +1,7 @@
 import { SPAWN_2_PROBABILITY, TARGET } from "./constants";
 import Tile from "./tile";
+import moveSound from '@sound/move.mp3';
+import mergeSound from '@sound/merge.mp3';
 
 export default class Board {
     private size: number;
@@ -34,11 +36,17 @@ export default class Board {
         const handleMoveMeta = (meta: { madeMove: boolean, mergeOccured: boolean, mergeSum: number }) => {
             if (meta.madeMove) {
                 this.spawnRandomTile();
+
+                const audio = new Audio(moveSound);
+                audio.play();
             }
 
             if (meta.mergeOccured) {
                 addToScore = meta.mergeSum;
                 this.maxTileValue = Math.max(this.maxTileValue, meta.mergeSum);
+
+                const audio = new Audio(mergeSound);
+                audio.play();
             }
         }
 
