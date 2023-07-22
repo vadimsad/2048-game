@@ -19,10 +19,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const restartButton = document.querySelector('#gameRestart') as HTMLButtonElement;
     restartButton.onclick = () => handleGameRestart(game);
 
+    const soundToggleButton = document.querySelector('#toggleSound') as HTMLButtonElement;
+    soundToggleButton.onclick = () => handleSoundToggle(game)
+
     window.addEventListener('beforeunload', () => {
         saveGridToLS(game.board.getGrid());
         saveScoreToLS(game.board.score);
-    })
+    });
 });
 
 function createHiDPICanvas(canvas: HTMLCanvasElement, w: number, h: number, ratio: number) {
@@ -49,5 +52,19 @@ function handleGameRestart(game: Game) {
 
     if (confirmRestart) {
         game.restart();
+    }
+}
+
+function handleSoundToggle(game: Game) {
+    const svgSoundOff = document.querySelector('#svgSoundOff') as SVGElement;
+    const svgSoundOn = document.querySelector('#svgSoundOn') as SVGElement;
+    game.board.soundOn = !game.board.soundOn;
+
+    if (game.board.soundOn) {
+        svgSoundOff.style.display = 'none';
+        svgSoundOn.style.display = 'block';
+    } else {
+        svgSoundOff.style.display = 'block';
+        svgSoundOn.style.display = 'none';
     }
 }

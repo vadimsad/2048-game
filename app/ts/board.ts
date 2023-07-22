@@ -9,12 +9,14 @@ export default class Board {
 
     public maxTileValue: number;
     public score: number;
+    public soundOn: boolean;
 
-    constructor(size = 4) {
+    constructor(size = 4, soundOn: boolean = false) {
         this.size = size;
         this.grid = [];
         this.score = 0;
         this.maxTileValue = 0;
+        this.soundOn = soundOn;
     }
 
     public init(savedGrid?: Tile[][], score?: number) {
@@ -37,16 +39,20 @@ export default class Board {
             if (meta.madeMove) {
                 this.spawnRandomTile();
 
-                const audio = new Audio(moveSound);
-                audio.play();
+                if (this.soundOn) {
+                    const audio = new Audio(moveSound);
+                    audio.play();
+                }
             }
 
             if (meta.mergeOccured) {
                 addToScore = meta.mergeSum;
                 this.maxTileValue = Math.max(this.maxTileValue, meta.mergeSum);
 
-                const audio = new Audio(mergeSound);
-                audio.play();
+                if (this.soundOn) {
+                    const audio = new Audio(mergeSound);
+                    audio.play();
+                }
             }
         }
 

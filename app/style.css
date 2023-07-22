@@ -54,6 +54,18 @@ main {
     align-items: center;
 }
 
+main .main-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+main .main-block .controls-block {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 header {
     margin-top: 50px;
     padding: 30px 0;
@@ -73,28 +85,49 @@ header h1 button#gameMode {
     color: var(--lighter);
     font-size: inherit;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
-main button#gameRestart {
+header h1 button#gameMode:hover {
+    transform: scale(1.05);
+}
+
+main .controls-block button {
     display: flex;
     gap: 5px;
     justify-content: center;
     align-items: center;
 }
 
-main button#gameRestart svg {
+main .controls-block button svg {
     background: var(--light);
     padding: 4px;
     border-radius: 8px;
 }
 
+main button#gameRestart svg {
+    transition: transform 0.2s ease-in-out;
+}
+
 main button#gameRestart svg path {
     transform-origin: 50% 50%;
-    transition: transform 0.2s ease-in-out
+    transition: transform 0.2s ease-in-out;
+}
+
+main button#gameRestart:hover svg {
+    transform: scale(1.08);
 }
 
 main button#gameRestart:hover svg path {
     transform: rotate(90deg);
+}
+
+main button#toggleSound svg {
+    transition: transform 0.2s ease-in-out;
+}
+
+main button#toggleSound:hover svg {
+    transform: scale(1.08);
 }
 
 header h3 {
