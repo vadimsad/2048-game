@@ -8,6 +8,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     canvas.width = CANVAS_SIZE;
     canvas.height = CANVAS_SIZE;
+    canvas.style.width = CANVAS_SIZE.toString();
+    canvas.style.height = CANVAS_SIZE.toString();
 
     const game = new Game(canvas);
     game.start();
